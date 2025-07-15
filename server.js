@@ -33,7 +33,7 @@ Include breakfast, lunch, dinner, and snacks for each day, with calories.
 
   try {
     const response = await axios.post('https://openrouter.ai/api/v1/chat/completions', {
-      model: "openchat/openchat-3.5-0106", // Free model
+      model: "openchat/openchat-7b", // Free model
       messages: [
         { role: "system", content: "You are a helpful AI nutritionist." },
         { role: "user", content: prompt }
