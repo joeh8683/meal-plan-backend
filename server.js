@@ -5,16 +5,22 @@ const axios = require('axios');
 const cors = require('cors');
 require('dotenv').config();
 
+console.log("✅ API KEY loaded:", process.env.OPENROUTER_API_KEY ? "Yes" : "No");
+
 const app = express();
 app.use(cors());
-app.use(bodyParser.json());
+app.use(express.json());
 
 
 app.post('/generate-meal-plan', async (req, res) => {
+  console.log("Received body:", req.body);
   const { currentWeight, goalWeight, age, height, gender, activity } = req.body;
+    if (!currentWeight || !goalWeight) {
+    return res.status(400).json({ error: "Missing input" });
+  }
 
   const prompt = `
-You are a nutritionist. Create a detailed 7-day meal plan for someone who is:
+You are a nutritionist. Create a detailed 4-week meal plan for someone who is:
 - Current weight: ${currentWeight}kg
 - Goal weight: ${goalWeight}kg
 - Age: ${age || 'not specified'}
