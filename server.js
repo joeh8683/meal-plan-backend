@@ -29,6 +29,17 @@ You are a nutritionist. Create a detailed 4-week meal plan for someone who is:
 - Activity level: ${activity || 'not specified'}
 
 Include breakfast, lunch, dinner, and snacks for each day, with calories.
+Then, write a short summary of the plan.
+Format it like:
+### Week 1
+...
+### Week 2
+...
+### Week 3
+...
+### Week 4
+...
+### Summary
 `;
 
   try {
