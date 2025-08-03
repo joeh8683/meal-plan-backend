@@ -14,7 +14,7 @@ app.use(express.json());
 
 app.post('/generate-meal-plan', async (req, res) => {
   console.log("Received body:", req.body);
-  const { currentWeight, goalWeight, age, height, gender, activity } = req.body;
+  const { currentWeight, goalWeight, age, height, gender, activity, restrictions } = req.body;
     if (!currentWeight || !goalWeight) {
     return res.status(400).json({ error: "Missing input" });
   }
@@ -65,4 +65,5 @@ Format it like:
 });
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+
 
