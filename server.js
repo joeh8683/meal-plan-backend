@@ -64,49 +64,5 @@ Format it like:
   }
 });
 
-app.post("/summarise-meals", async (req, res) => {
-  const { fullMealPlan } = req.body;
-
-  if (!fullMealPlan) {
-    return res.status(400).json({ error: "No meal plan provided" });
-  }
-
-  const prompt = `Here is a meal plan:\n\n${fullMealPlan}\n\nPlease list only the meals mentioned (e.g., "chickpea salad", "grilled chicken and vegetables", etc.) in a clean, comma-separated format without any extra commentary.`;
-
-  try {
-const response = await axios.post("https://openrouter.ai/api/v1/chat/completions", {
-  model: "deepseek/deepseek-chat-v3-0324:free",
-  messages: [
-    { role: "system", content: "You are a helpful assistant that extracts clean meal names from meal plans." },
-    { role: "user", content: prompt }
-  ]
-}, {
-  headers: {
-    "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-    "Content-Type": "application/json"
-  }
-});
-
-const aiMessage = response.data.choices?.[0]?.message?.content?.trim();
-
-
-    if (!aiMessage) {
-      return res.status(500).json({ error: "No response from AI." });
-    }
-
-    res.json({ mealList: aiMessage });
-  } catch (err) {
-    console.error("Error summarising meals:", err);
-    res.status(500).json({ error: "Failed to summarise meals" });
-  }
-});
-
-
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));
-
-
-
-
-
-
 
