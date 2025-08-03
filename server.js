@@ -27,6 +27,7 @@ You are a nutritionist. Create a detailed 4-week meal plan for someone who is:
 - Height: ${height || 'not specified'} cm
 - Gender: ${gender || 'not specified'}
 - Activity level: ${activity || 'not specified'}
+- Dietary Restrictions: ${restrictions || 'not specified'}
 
 Include breakfast, lunch, dinner, and snacks for each day, with calories.
 Then, write a short summary of the plan.
@@ -64,3 +65,4 @@ Format it like:
 });
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+
