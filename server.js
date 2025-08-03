@@ -74,23 +74,21 @@ app.post("/summarise-meals", async (req, res) => {
   const prompt = `Here is a meal plan:\n\n${fullMealPlan}\n\nPlease list only the meals mentioned (e.g., "chickpea salad", "grilled chicken and vegetables", etc.) in a clean, comma-separated format without any extra commentary.`;
 
   try {
-    const response = await fetch("https://openrouter.ai/api/v1/chat/completions", {
-      method: "POST",
-      headers: {
-        "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        model: "openai/gpt-3.5-turbo", // Or your preferred model
-        messages: [
-          { role: "system", content: "You are a helpful assistant that extracts clean meal names from meal plans." },
-          { role: "user", content: prompt }
-        ]
-      })
-    });
+const response = await axios.post("https://openrouter.ai/api/v1/chat/completions", {
+  model: "openai/gpt-3.5-turbo",
+  messages: [
+    { role: "system", content: "You are a helpful assistant that extracts clean meal names from meal plans." },
+    { role: "user", content: prompt }
+  ]
+}, {
+  headers: {
+    "Authorization": `Bearer ${process.env.OPENROUTER_API_KEY}`,
+    "Content-Type": "application/json"
+  }
+});
 
-    const data = await response.json();
-    const aiMessage = data.choices?.[0]?.message?.content?.trim();
+const aiMessage = response.data.choices?.[0]?.message?.content?.trim();
+
 
     if (!aiMessage) {
       return res.status(500).json({ error: "No response from AI." });
@@ -105,6 +103,7 @@ app.post("/summarise-meals", async (req, res) => {
 
 
 app.listen(3000, () => console.log('Server running on http://localhost:3000'));
+
 
 
 
